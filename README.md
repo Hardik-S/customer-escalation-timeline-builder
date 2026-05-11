@@ -45,3 +45,6 @@ npm run preview
 
 The expected verification path is `npm ci`, `npm run test -- --run`, `npm run build`, and a local preview smoke check for the timeline and commitment ledger.
 
+## Deployment
+
+Production is deployed on Vercel at https://customer-escalation-timeline-builde.vercel.app. The alias is intentionally recorded because the first deploy used an explicit project name after the Vercel CLI rejected the long worktree-derived auto name.
