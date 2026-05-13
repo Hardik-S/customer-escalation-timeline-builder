@@ -16,7 +16,7 @@ export interface Commitment {
 }
 
 const ownerPattern = /^(?<owner>[A-Z][A-Za-z ]+|Support|Engineering|CSM|Account team|Unassigned team member) to /;
-const datePattern = /by (?<month>Apr|May) (?<day>\d{1,2})( (?<time>\d{1,2}:\d{2}))?/;
+const datePattern = /(?:by|before) (?<month>Apr|May) (?<day>\d{1,2})( (?<time>\d{1,2}:\d{2}))?/;
 const monthIndex: Record<string, number> = { Apr: 3, May: 4 };
 
 export function buildTimeline(evidence: EscalationEvidence[]): TimelineItem[] {
@@ -47,7 +47,7 @@ export function extractCommitments(evidence: EscalationEvidence[], now = new Dat
         sourceId: item.id,
         text,
         owner,
-        dueLabel: text.match(datePattern)?.[0].replace("by ", "") ?? "No date stated",
+        dueLabel: text.match(datePattern)?.[0].replace(/^(by|before) /, "") ?? "No date stated",
         dueAt: due,
         status: ambiguous ? "ambiguous-owner" : missed ? "missed" : "unresolved"
       };
