@@ -40,6 +40,7 @@ npm run preview
 - Kept every commitment tied to source IDs so the UI can explain why an item is unresolved or ambiguous.
 - Treated owner ambiguity as a first-class risk because escalation prep often fails when accountability is assumed but not named.
 - Parsed both `by` and `before` deadline language because customer commitments often use either phrase to describe the same recovery date.
+- Kept prep-brief risk wording count-aware so singular evidence does not make the generated manager summary look machine-assembled.
 - Avoided live AI in the first slice; later GPT behavior should move behind a server route and preserve this deterministic evidence trail.
 
 ## Verification

@@ -62,11 +62,15 @@ export function buildPrepBrief(evidence: EscalationEvidence[], commitments: Comm
 
   return {
     callLead: "Open with the replay-complete evidence, then acknowledge the missed commitment timestamps directly.",
-    riskLine: `${missed.length} missed commitments and ${ambiguous.length} owner ambiguity issue need explicit recovery language.`,
+    riskLine: `${formatCount(missed.length, "missed commitment")} and ${formatCount(ambiguous.length, "owner ambiguity issue")} need explicit recovery language.`,
     nextAction:
       "Send an executive-ready written summary with replay proof, monitoring proof, named owner, and Friday renewal checkpoint agenda.",
     latestSource: latest ? `${latest.id}: ${latest.title}` : "No source evidence"
   };
+}
+
+function formatCount(count: number, singularLabel: string): string {
+  return `${count} ${singularLabel}${count === 1 ? "" : "s"}`;
 }
 
 function parseDueDate(text: string): Date | null {

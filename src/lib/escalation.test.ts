@@ -28,4 +28,31 @@ describe("customer escalation timeline", () => {
     expect(brief.riskLine).toContain("missed commitments");
     expect(brief.latestSource).toContain("Replay completed");
   });
+
+  it("keeps prep-brief risk wording grammatical for singular counts", () => {
+    const commitments = [
+      {
+        id: "single-missed",
+        sourceId: "TCK-1",
+        text: "CSM to send customer replay proof by Apr 30",
+        owner: "CSM",
+        dueLabel: "Apr 30",
+        dueAt: new Date(2026, 3, 30),
+        status: "missed" as const
+      },
+      {
+        id: "single-ambiguous",
+        sourceId: "TCK-2",
+        text: "Unassigned team member to confirm executive owner by May 2",
+        owner: "Unassigned team member",
+        dueLabel: "May 2",
+        dueAt: new Date(2026, 4, 2),
+        status: "ambiguous-owner" as const
+      }
+    ];
+
+    const brief = buildPrepBrief(escalationEvidence, commitments);
+
+    expect(brief.riskLine).toBe("1 missed commitment and 1 owner ambiguity issue need explicit recovery language.");
+  });
 });
