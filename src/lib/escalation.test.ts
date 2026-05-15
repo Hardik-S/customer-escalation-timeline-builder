@@ -22,6 +22,26 @@ describe("customer escalation timeline", () => {
     expect(executiveSummary?.dueAt).toEqual(new Date(2026, 4, 2, 9, 0));
   });
 
+  it("parses full month names for later recovery commitments", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3001",
+        kind: "email",
+        occurredAt: "2026-05-28T13:00:00-04:00",
+        title: "Recovery checkpoint moved into June",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer asks for a named recap before the June steering review.",
+        commitments: ["Customer Success to publish recovery recap by June 3 09:30."],
+        sentiment: "concerned"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("June 3 09:30");
+    expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 3, 9, 30));
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("builds a save-the-account prep brief from unresolved evidence", () => {
     const commitments = extractCommitments(escalationEvidence);
     const brief = buildPrepBrief(escalationEvidence, commitments);

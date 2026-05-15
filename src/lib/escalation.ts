@@ -16,8 +16,34 @@ export interface Commitment {
 }
 
 const ownerPattern = /^(?<owner>[A-Z][A-Za-z ]+|Support|Engineering|CSM|Account team|Unassigned team member) to /;
-const datePattern = /(?:by|before) (?<month>Apr|May) (?<day>\d{1,2})( (?<time>\d{1,2}:\d{2}))?/;
-const monthIndex: Record<string, number> = { Apr: 3, May: 4 };
+const datePattern =
+  /(?:by|before) (?<month>Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?<day>\d{1,2})( (?<time>\d{1,2}:\d{2}))?/i;
+const monthIndex: Record<string, number> = {
+  jan: 0,
+  january: 0,
+  feb: 1,
+  february: 1,
+  mar: 2,
+  march: 2,
+  apr: 3,
+  april: 3,
+  may: 4,
+  jun: 5,
+  june: 5,
+  jul: 6,
+  july: 6,
+  aug: 7,
+  august: 7,
+  sep: 8,
+  september: 8,
+  oct: 9,
+  october: 9,
+  nov: 10,
+  november: 10,
+  dec: 11,
+  december: 11
+};
+const fixtureYear = 2026;
 
 export function buildTimeline(evidence: EscalationEvidence[]): TimelineItem[] {
   return [...evidence]
@@ -47,7 +73,7 @@ export function extractCommitments(evidence: EscalationEvidence[], now = new Dat
         sourceId: item.id,
         text,
         owner,
-        dueLabel: text.match(datePattern)?.[0].replace(/^(by|before) /, "") ?? "No date stated",
+        dueLabel: text.match(datePattern)?.[0].replace(/^(by|before) /i, "") ?? "No date stated",
         dueAt: due,
         status: ambiguous ? "ambiguous-owner" : missed ? "missed" : "unresolved"
       };
@@ -79,8 +105,8 @@ function parseDueDate(text: string): Date | null {
     return null;
   }
 
-  const month = monthIndex[match.groups.month];
+  const month = monthIndex[match.groups.month.toLowerCase()];
   const day = Number(match.groups.day);
   const [hour = "17", minute = "00"] = (match.groups.time ?? "17:00").split(":");
-  return new Date(2026, month, day, Number(hour), Number(minute));
+  return new Date(fixtureYear, month, day, Number(hour), Number(minute));
 }
