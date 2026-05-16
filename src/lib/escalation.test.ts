@@ -42,6 +42,25 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].status).toBe("unresolved");
   });
 
+  it("keeps explicit times when deadline copy includes a comma", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3002",
+        kind: "email",
+        occurredAt: "2026-05-28T14:00:00-04:00",
+        title: "Comma-formatted recovery checkpoint",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer asks for a timed recap in comma-formatted deadline copy.",
+        commitments: ["Customer Success to publish recovery recap by June 3, 09:30."],
+        sentiment: "concerned"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("June 3, 09:30");
+    expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 3, 9, 30));
+  });
+
   it("builds a save-the-account prep brief from unresolved evidence", () => {
     const commitments = extractCommitments(escalationEvidence);
     const brief = buildPrepBrief(escalationEvidence, commitments);

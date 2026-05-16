@@ -45,6 +45,9 @@ npm run preview
   the synthetic fixture year fixed at 2026. This preserves deterministic tests
   without letting later recovery commitments such as June steering-review tasks
   lose their due dates.
+- Preserve comma-formatted deadline times, such as `June 3, 09:30`, because
+  customer-facing recovery notes often include natural punctuation around
+  executive checkpoint times.
 - Avoided live AI in the first slice; later GPT behavior should move behind a server route and preserve this deterministic evidence trail.
 
 ## Verification
