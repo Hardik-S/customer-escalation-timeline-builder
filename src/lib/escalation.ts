@@ -17,7 +17,7 @@ export interface Commitment {
 
 const ownerPattern = /^(?<owner>[A-Z][A-Za-z ]+|Support|Engineering|CSM|Account team|Unassigned team member) to /;
 const datePattern =
-  /(?:by|before) (?<month>Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?<day>\d{1,2})( (?<time>\d{1,2}:\d{2}))?/i;
+  /(?:by|before) (?<month>Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?<day>\d{1,2})(?:,? (?<time>\d{1,2}:\d{2}))?/i;
 const monthIndex: Record<string, number> = {
   jan: 0,
   january: 0,
