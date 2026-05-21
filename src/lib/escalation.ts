@@ -64,6 +64,7 @@ export function extractCommitments(evidence: EscalationEvidence[], now = new Dat
   return evidence.flatMap((item) =>
     item.commitments.map((text, index) => {
       const owner = text.match(ownerPattern)?.groups?.owner ?? "Owner unclear";
+      const dueMatch = text.match(datePattern);
       const due = parseDueDate(text);
       const ambiguous = owner === "Owner unclear" || owner === "Unassigned team member";
       const missed = due ? due.getTime() < now.getTime() : false;
@@ -73,7 +74,7 @@ export function extractCommitments(evidence: EscalationEvidence[], now = new Dat
         sourceId: item.id,
         text,
         owner,
-        dueLabel: text.match(datePattern)?.[0].replace(/^(by|before) /i, "") ?? "No date stated",
+        dueLabel: due && dueMatch ? dueMatch[0].replace(/^(by|before) /i, "") : "No date stated",
         dueAt: due,
         status: ambiguous ? "ambiguous-owner" : missed ? "missed" : "unresolved"
       };
@@ -108,5 +109,17 @@ function parseDueDate(text: string): Date | null {
   const month = monthIndex[match.groups.month.toLowerCase()];
   const day = Number(match.groups.day);
   const [hour = "17", minute = "00"] = (match.groups.time ?? "17:00").split(":");
-  return new Date(fixtureYear, month, day, Number(hour), Number(minute));
+  const parsed = new Date(fixtureYear, month, day, Number(hour), Number(minute));
+
+  if (
+    parsed.getFullYear() !== fixtureYear ||
+    parsed.getMonth() !== month ||
+    parsed.getDate() !== day ||
+    parsed.getHours() !== Number(hour) ||
+    parsed.getMinutes() !== Number(minute)
+  ) {
+    return null;
+  }
+
+  return parsed;
 }

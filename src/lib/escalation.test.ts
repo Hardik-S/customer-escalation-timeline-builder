@@ -61,6 +61,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 3, 9, 30));
   });
 
+  it("does not roll impossible calendar dates into later months", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3003",
+        kind: "email",
+        occurredAt: "2026-05-28T15:00:00-04:00",
+        title: "Invalid recovery checkpoint date",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "The copied commitment contains an impossible calendar date.",
+        commitments: ["Support to publish recovery recap by February 31 09:30."],
+        sentiment: "concerned"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("No date stated");
+    expect(commitments[0].dueAt).toBeNull();
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("builds a save-the-account prep brief from unresolved evidence", () => {
     const commitments = extractCommitments(escalationEvidence);
     const brief = buildPrepBrief(escalationEvidence, commitments);

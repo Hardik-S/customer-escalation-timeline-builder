@@ -48,6 +48,9 @@ npm run preview
 - Preserve comma-formatted deadline times, such as `June 3, 09:30`, because
   customer-facing recovery notes often include natural punctuation around
   executive checkpoint times.
+- Reject impossible copied deadline dates instead of letting JavaScript roll
+  them into later months. A malformed customer commitment should remain
+  unresolved without showing a fabricated due date.
 - Avoided live AI in the first slice; later GPT behavior should move behind a server route and preserve this deterministic evidence trail.
 
 ## Verification
