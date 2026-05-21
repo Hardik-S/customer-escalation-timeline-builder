@@ -50,6 +50,9 @@ npm run preview
   executive checkpoint times.
 - Parse `no later than` deadline phrasing because escalation recovery notes
   often frame a due date as the latest acceptable customer-facing time.
+- Recognize `will`-phrased owner commitments, such as `CSM will send ...`,
+  because customer-facing recovery notes often use promise language instead of
+  task-list wording.
 - Reject impossible copied deadline dates instead of letting JavaScript roll
   them into later months. A malformed customer commitment should remain
   unresolved without showing a fabricated due date.
