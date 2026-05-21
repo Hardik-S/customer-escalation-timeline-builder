@@ -61,6 +61,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 3, 9, 30));
   });
 
+  it("parses no-later-than recovery commitments", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3004",
+        kind: "email",
+        occurredAt: "2026-05-28T16:00:00-04:00",
+        title: "Deadline framed as a latest acceptable time",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer asks for a recovery summary with no-later-than language.",
+        commitments: ["CSM to send the revised replay summary no later than June 4 10:15."],
+        sentiment: "urgent"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("June 4 10:15");
+    expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 4, 10, 15));
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("does not roll impossible calendar dates into later months", () => {
     const commitments = extractCommitments([
       {
