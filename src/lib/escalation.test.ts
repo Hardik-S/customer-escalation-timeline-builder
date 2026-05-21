@@ -81,6 +81,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].status).toBe("unresolved");
   });
 
+  it("recognizes owners in will-phrased recovery commitments", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3005",
+        kind: "email",
+        occurredAt: "2026-05-28T17:00:00-04:00",
+        title: "Customer asks for direct ownership wording",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer forwards a recovery note written with will-language.",
+        commitments: ["CSM will send monitoring proof by June 4 11:00."],
+        sentiment: "concerned"
+      }
+    ]);
+
+    expect(commitments[0].owner).toBe("CSM");
+    expect(commitments[0].dueLabel).toBe("June 4 11:00");
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("does not roll impossible calendar dates into later months", () => {
     const commitments = extractCommitments([
       {
