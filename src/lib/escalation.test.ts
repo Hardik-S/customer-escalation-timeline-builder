@@ -101,6 +101,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].status).toBe("unresolved");
   });
 
+  it("recognizes tiered support owners in copied commitments", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3007",
+        kind: "email",
+        occurredAt: "2026-05-28T18:30:00-04:00",
+        title: "Tiered support recovery owner",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer forwards a recovery task owned by a numbered support tier.",
+        commitments: ["L2 Support to publish replay diagnostics by June 4 13:00."],
+        sentiment: "urgent"
+      }
+    ]);
+
+    expect(commitments[0].owner).toBe("L2 Support");
+    expect(commitments[0].dueLabel).toBe("June 4 13:00");
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("parses ordinal day suffixes in copied recovery deadlines", () => {
     const commitments = extractCommitments([
       {
