@@ -101,6 +101,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].status).toBe("unresolved");
   });
 
+  it("parses ordinal day suffixes in copied recovery deadlines", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3006",
+        kind: "email",
+        occurredAt: "2026-05-28T18:00:00-04:00",
+        title: "Ordinal recovery deadline",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer forwards a copied recovery deadline with ordinal date copy.",
+        commitments: ["Support to deliver replay audit by June 4th 10:15."],
+        sentiment: "urgent"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("June 4th 10:15");
+    expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 4, 10, 15));
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("does not roll impossible calendar dates into later months", () => {
     const commitments = extractCommitments([
       {
