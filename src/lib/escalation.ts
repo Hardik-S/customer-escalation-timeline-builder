@@ -15,7 +15,7 @@ export interface Commitment {
   status: "missed" | "unresolved" | "ambiguous-owner" | "covered";
 }
 
-const ownerPattern = /^(?<owner>[A-Z][A-Za-z0-9 ]+?) (?:to|will) /;
+const ownerPattern = /^(?<owner>[A-Z][A-Za-z0-9 &/-]+?) (?:to|will) /;
 const deadlineLeadPattern = /^(by|before|no later than) /i;
 const datePattern =
   /(?:by|before|no later than) (?<month>Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?<day>\d{1,2})(?:st|nd|rd|th)?(?:,? (?<time>\d{1,2}:\d{2}))?/i;
