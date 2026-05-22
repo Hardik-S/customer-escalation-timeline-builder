@@ -57,6 +57,8 @@ npm run preview
   notes commonly assign recovery evidence to numbered operational teams.
 - Accept joint owner names, such as `CSM & Support`, because pasted recovery
   notes often assign one customer-facing commitment to a shared pairing.
+- Accept plus-separated joint owner names, such as `CSM + Support`, because
+  copied customer recovery notes often use spreadsheet-style team pairings.
 - Accept ordinal date copy, such as `June 4th 10:15`, so pasted customer
   commitments keep their explicit recovery time instead of falling back to the
   fixture end-of-day default.

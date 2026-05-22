@@ -141,6 +141,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].status).toBe("unresolved");
   });
 
+  it("recognizes plus-separated joint owners in copied commitments", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3009",
+        kind: "email",
+        occurredAt: "2026-05-28T19:30:00-04:00",
+        title: "Plus-separated recovery owner",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer forwards a recovery task owned by a pasted cross-functional pairing.",
+        commitments: ["CSM + Support to publish monitoring proof by June 4 14:30."],
+        sentiment: "urgent"
+      }
+    ]);
+
+    expect(commitments[0].owner).toBe("CSM + Support");
+    expect(commitments[0].dueLabel).toBe("June 4 14:30");
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("parses ordinal day suffixes in copied recovery deadlines", () => {
     const commitments = extractCommitments([
       {
