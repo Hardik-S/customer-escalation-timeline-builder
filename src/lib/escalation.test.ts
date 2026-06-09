@@ -201,6 +201,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].status).toBe("unresolved");
   });
 
+  it("parses due-date phrasing in copied recovery commitments", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3011",
+        kind: "email",
+        occurredAt: "2026-05-28T20:30:00-04:00",
+        title: "Due-date recovery deadline",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer forwards a recovery note with due-date task wording.",
+        commitments: ["Support to publish the replay audit due June 4 16:00."],
+        sentiment: "urgent"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("June 4 16:00");
+    expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 4, 16, 0));
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("does not roll impossible calendar dates into later months", () => {
     const commitments = extractCommitments([
       {

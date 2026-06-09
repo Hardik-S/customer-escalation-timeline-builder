@@ -16,9 +16,9 @@ export interface Commitment {
 }
 
 const ownerPattern = /^(?<owner>[A-Z][A-Za-z0-9 &+/-]+?) (?:to|will) /;
-const deadlineLeadPattern = /^(by|before|no later than) /i;
+const deadlineLeadPattern = /^(by|before|no later than|due) /i;
 const datePattern =
-  /(?:by|before|no later than) (?:(?:EOD|end of day) )?(?<month>Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?<day>\d{1,2})(?:st|nd|rd|th)?(?:,? (?<time>\d{1,2}:\d{2}))?/i;
+  /(?:by|before|no later than|due) (?:(?:EOD|end of day) )?(?<month>Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) (?<day>\d{1,2})(?:st|nd|rd|th)?(?:,? (?<time>\d{1,2}:\d{2}))?/i;
 const monthIndex: Record<string, number> = {
   jan: 0,
   january: 0,
