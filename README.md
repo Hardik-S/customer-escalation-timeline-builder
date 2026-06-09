@@ -62,6 +62,8 @@ npm run preview
 - Accept ordinal date copy, such as `June 4th 10:15`, so pasted customer
   commitments keep their explicit recovery time instead of falling back to the
   fixture end-of-day default.
+- Accept EOD deadline shorthand, such as `by EOD June 4`, so customer-facing
+  recovery packets keep a due date instead of appearing unresolved.
 - Reject impossible copied deadline dates instead of letting JavaScript roll
   them into later months. A malformed customer commitment should remain
   unresolved without showing a fabricated due date.

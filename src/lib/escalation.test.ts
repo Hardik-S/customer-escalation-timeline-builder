@@ -181,6 +181,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].status).toBe("unresolved");
   });
 
+  it("parses EOD deadline copy as the customer-facing end of day", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3010",
+        kind: "email",
+        occurredAt: "2026-05-28T20:00:00-04:00",
+        title: "EOD recovery deadline",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer forwards a recovery note with end-of-day deadline shorthand.",
+        commitments: ["Support to send the replay completion packet by EOD June 4."],
+        sentiment: "urgent"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("EOD June 4");
+    expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 4, 17, 0));
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("does not roll impossible calendar dates into later months", () => {
     const commitments = extractCommitments([
       {
