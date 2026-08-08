@@ -48,6 +48,8 @@ npm run preview
 - Preserve comma-formatted deadline times, such as `June 3, 09:30`, because
   customer-facing recovery notes often include natural punctuation around
   executive checkpoint times.
+- Preserve natural-language time separators, such as `June 4 at 10:15`,
+  because copied customer notes often state checkpoint times conversationally.
 - Parse `no later than` deadline phrasing because escalation recovery notes
   often frame a due date as the latest acceptable customer-facing time.
 - Recognize `will`-phrased owner commitments, such as `CSM will send ...`,
