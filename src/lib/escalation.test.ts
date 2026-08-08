@@ -61,6 +61,26 @@ describe("customer escalation timeline", () => {
     expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 3, 9, 30));
   });
 
+  it("parses natural-language at separators before recovery times", () => {
+    const commitments = extractCommitments([
+      {
+        id: "EML-3012",
+        kind: "email",
+        occurredAt: "2026-05-28T14:30:00-04:00",
+        title: "Natural-language recovery checkpoint",
+        actor: "Maya Chen",
+        source: "Customer email",
+        summary: "Customer forwards a recovery note with an at-formatted deadline.",
+        commitments: ["Customer Success to publish recovery recap by June 4 at 10:15."],
+        sentiment: "concerned"
+      }
+    ]);
+
+    expect(commitments[0].dueLabel).toBe("June 4 at 10:15");
+    expect(commitments[0].dueAt).toEqual(new Date(2026, 5, 4, 10, 15));
+    expect(commitments[0].status).toBe("unresolved");
+  });
+
   it("parses no-later-than recovery commitments", () => {
     const commitments = extractCommitments([
       {
